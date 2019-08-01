@@ -3,7 +3,7 @@ from model import Igra, Hand
 import model
 
 
-
+#blablba
 
 
 def igralec_izbira(roka):
