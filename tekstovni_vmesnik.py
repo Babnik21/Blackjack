@@ -3,8 +3,7 @@ from model import Igra, Hand
 import model
 
 
-#blablba
-
+#popravi da piše v evrih ne '100 denarja'
 
 def igralec_izbira_prva(game, roka):
     #Vpraša igralca, kaj želi s trenutno roko storiti in vrne, rabi popravek
@@ -16,7 +15,7 @@ def igralec_izbira_prva(game, roka):
     odgovor = input('> ')
     if len(odgovor) != 1 or odgovor not in '123':
         print('Neveljavna izbira!')
-        return igralec_izbira(game, roka)
+        return igralec_izbira_prva(game, roka)
     else:
         return model.igralec_poteza(roka, odgovor)
 
@@ -37,21 +36,27 @@ def vprašaj_po_depositu():
     #Vpraša igralca, koliko denarja želi vložiti za igralno mizo in vrne število
     print('Koliko denarja želite imeti za mizo?')
     odgovor = input('> ')
+    if len(odgovor) == 0 or odgovor.count('.') > 1:
+        print('Neveljaven vnos')
+        return vprašaj_po_depositu()
     for el in odgovor:
-        if el not in '1234567890':
+        if el not in '1234567890.':
             print('Neveljavna izbira!')
             return vprašaj_po_depositu()
-    return int(odgovor)
+    return float(odgovor)
 
 def pridobi_wager(igra):
     #Vpraša igralca, koliko denarja želi staviti prihodnji hand
     print('Koliko denarja želite staviti naslednjo roko?')
     odgovor = input('> ')
+    if len(odgovor) == 0 or odgovor.count('.') > 1:
+        print('Neveljaven vnos')
+        return pridobi_wager(igra)
     for el in odgovor:
-        if el not in '1234567890':
+        if el not in '1234567890.':
             print('Neveljavna izbira.')
             return pridobi_wager(igra)
-    odgovor = int(odgovor)
+    odgovor = float(odgovor)
     if odgovor > igra.balance:
         print('Neveljavna izbira! Na voljo imate le še {} evrov.'.format(igra.balance))
         return pridobi_wager(igra)
