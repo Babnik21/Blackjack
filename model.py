@@ -17,10 +17,14 @@ class Hand:
         choice(['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'])]
         self.player_count = 0
         self.dealer_count = 0
+        self.dealer_ace_count = 0
+        self.player_ace_count = 0
         
     def update_counts(self):
         player_count = 0
         dealer_count = 0
+        player_aces = self.player_cards.count('A')
+        dealer_aces = self.dealer_cards.count('A')
         for el in self.dealer_cards:
             if el in '23456789':
                 dealer_count += int(el)
@@ -28,9 +32,9 @@ class Hand:
                 dealer_count += 10
             else:
                 dealer_count += 11
-        for el in self.dealer_cards:
-            if dealer_count > 21 and el == 'A':
-                dealer_count -= 10
+        if dealer_count > 21 and dealer_aces > self.dealer_ace_count:
+            dealer_count -= 10
+            self.dealer_ace_count += 1
         for el in self.player_cards:
             if el in '23456789':
                 player_count += int(el)
@@ -38,9 +42,9 @@ class Hand:
                 player_count += 10
             else:
                 player_count += 11
-        for el in self.player_cards:
-            if player_count > 21 and el == 'A':
-                player_count -= 10
+        if player_count > 21 and player_aces > self.player_ace_count:
+            player_count -= 10
+            self.player_ace_count += 1
         self.player_count = player_count
         self.dealer_count = dealer_count
         
