@@ -61,6 +61,10 @@ class Hand:
         drugi_del = ', dealer ima ' + dealerjeve + ' ({}).'.format(self.dealer_count)
         return prvi_del + drugi_del
 
+def nova_igra(cifra):
+    #Vrne novo igro
+    return Igra(cifra)
+
 def igralec_poteza(roka, odgovor):
     #Sprejme odgovor uporabnika in opravi potezo (hit/stand...)
     if odgovor == '1':

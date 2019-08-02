@@ -50,7 +50,7 @@ def pridobi_wager(igra):
     print('Koliko denarja želite staviti naslednjo roko?')
     odgovor = input('> ')
     if len(odgovor) == 0 or odgovor.count('.') > 1:
-        print('Neveljaven vnos')
+        print('Neveljavna izbira')
         return pridobi_wager(igra)
     for el in odgovor:
         if el not in '1234567890.':
@@ -77,9 +77,9 @@ def play_again():
     else:
         return False
 
-def nova_igra():
+def nova_igra(cifra):
     #Vrne novo igro
-    return Igra(vprašaj_po_depositu())
+    return Igra(cifra)
 
 def razplet(roka, game):
     #Obvesti igralca o razpletu roke in osveži stanje na računu igralca
@@ -132,7 +132,7 @@ def odigraj_roko(game):
 
 def igra():
     #Celotna igra
-    game = nova_igra()
+    game = model.nova_igra(vprašaj_po_depositu())
     while True:
         odigraj_roko(game)
         if game.balance == 0:
