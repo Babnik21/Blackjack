@@ -1,4 +1,4 @@
-import time, sys
+import time
 from model import Igra, Hand
 import model
 
@@ -6,7 +6,8 @@ import model
 #popravi da piše v evrih ne '100 denarja'
 
 def igralec_izbira_prva(game, roka):
-    #Vpraša igralca, kaj želi s trenutno roko storiti in vrne, rabi popravek
+    #Vpraša igralca, kaj želi s trenutno roko storiti in to izvede
+    #Uporabljena le za prvič, ko je igralec na potezi, saj kasneje 'double' ni mogoč
     print(roka)
     print('Kaj želite narediti?')
     print('1) Hit')
@@ -20,6 +21,7 @@ def igralec_izbira_prva(game, roka):
         return model.igralec_poteza(roka, odgovor)
 
 def igralec_izbira(game, roka):
+    #Podobno kot igralec_izbira_prva, le da brez možnosti 'double'
     print(roka)
     print('Kaj želite narediti?')
     print('1) Hit')
@@ -33,7 +35,7 @@ def igralec_izbira(game, roka):
 
 
 def vprašaj_po_depositu():
-    #Vpraša igralca, koliko denarja želi vložiti za igralno mizo in vrne število
+    #Vpraša igralca, koliko denarja želi vložiti za igralno mizo in vrne to število
     print('Koliko denarja želite imeti za mizo?')
     odgovor = input('> ')
     if len(odgovor) == 0 or odgovor.count('.') > 1:
@@ -46,7 +48,7 @@ def vprašaj_po_depositu():
     return float(odgovor)
 
 def pridobi_wager(igra):
-    #Vpraša igralca, koliko denarja želi staviti prihodnji hand
+    #Vpraša igralca, koliko denarja želi staviti prihodnji hand, in vrne to število
     print('Koliko denarja želite staviti naslednjo roko?')
     odgovor = input('> ')
     if len(odgovor) == 0 or odgovor.count('.') > 1:
@@ -77,10 +79,6 @@ def play_again():
     else:
         return False
 
-def nova_igra(cifra):
-    #Vrne novo igro
-    return Igra(cifra)
-
 def razplet(roka, game):
     #Obvesti igralca o razpletu roke in osveži stanje na računu igralca
     if model.player_blackjack(roka):
@@ -109,14 +107,9 @@ def cash_out(game):
         print('Neveljavna izbira!')
         return cash_out(game)
 
-def new_hand(game):
-    roka = Hand(pridobi_wager(game))
-    roka.update_counts()
-    return roka
-
 def odigraj_roko(game):
     #Sestavek kjer igralec odigra roko
-    roka = new_hand(game)
+    roka = model.new_hand(pridobi_wager(game))
     while roka.player_count < 21 and not roka.stand:
         if len(roka.player_cards) == 2:
             roka = igralec_izbira_prva(game, roka)
@@ -150,6 +143,7 @@ def intro():
     time.sleep(3)
 
 def program():
+    #Main
     intro()
     while True:
         igra()

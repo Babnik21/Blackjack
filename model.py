@@ -1,3 +1,5 @@
+from random import choice
+
 class Igra:
     def __init__(self, deposit):
         self.balance = deposit
@@ -5,8 +7,6 @@ class Igra:
     def __str__(self):
         print('Na voljo imate še {} evrov.'.format(self.balance))
 
-
-from random import choice
 
 class Hand:
     def __init__(self, wager):
@@ -21,6 +21,7 @@ class Hand:
         self.player_ace_count = 0
         
     def update_counts(self):
+        #Na novo prešteje vrednost dealerjeve in igralčeve roke
         player_count = self.player_ace_count * -10
         dealer_count = self.dealer_ace_count * -10
         player_aces = self.player_cards.count('A')
@@ -49,9 +50,11 @@ class Hand:
         self.dealer_count = dealer_count
         
     def player_hit(self):
+        #Igralcu doda karto
         self.player_cards.append(choice(['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']))
 
     def dealer_hit(self):
+        #Dealerju doda karto
         self.dealer_cards.append(choice(['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']))      
 
     def __str__(self):
@@ -64,6 +67,12 @@ class Hand:
 def nova_igra(cifra):
     #Vrne novo igro
     return Igra(cifra)
+
+def new_hand(wager):
+    #Naredi novo roko in jo vrne
+    roka = Hand(wager)
+    roka.update_counts()
+    return roka
 
 def igralec_poteza(roka, odgovor):
     #Sprejme odgovor uporabnika in opravi potezo (hit/stand...)
@@ -96,7 +105,7 @@ def dealer_won(roka):
         return roka.player_count < roka.dealer_count
 
 def player_blackjack(roka):
-    #Preveri, ali ima plaayer Blackjack ali ne
+    #Preveri, ali ima igralec Blackjack ali ne
     if roka.player_count != 21 or len(roka.player_cards) != 2:
         return False
     else:
