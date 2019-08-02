@@ -21,8 +21,8 @@ class Hand:
         self.player_ace_count = 0
         
     def update_counts(self):
-        player_count = 0
-        dealer_count = 0
+        player_count = self.player_ace_count * -10
+        dealer_count = self.dealer_ace_count * -10
         player_aces = self.player_cards.count('A')
         dealer_aces = self.dealer_cards.count('A')
         for el in self.dealer_cards:
@@ -55,9 +55,14 @@ class Hand:
         self.dealer_cards.append(choice(['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']))      
 
     def __str__(self):
-        return 'Vaša roka je {}, dealer ima {}'.format(self.player_cards, self.dealer_cards)
+        moje = ', '.join(self.player_cards)
+        dealerjeve = ', '.join(self.dealer_cards)
+        prvi_del = 'Vaša roka je ' + moje + ' ({})'.format(self.player_count)
+        drugi_del = ', dealer ima ' + dealerjeve + ' ({}).'.format(self.dealer_count)
+        return prvi_del + drugi_del
 
 def igralec_poteza(roka, odgovor):
+    #Sprejme odgovor uporabnika in opravi potezo (hit/stand...)
     if odgovor == '1':
         roka.player_hit()
     elif odgovor == '2':
@@ -69,6 +74,7 @@ def igralec_poteza(roka, odgovor):
     return roka
         
 def player_won(roka):
+    #Preveri, ali je igralec zmagal, vrne True/False
     if roka.player_count > 21:
         return False
     elif roka.dealer_count > 21:
@@ -77,6 +83,7 @@ def player_won(roka):
         return roka.player_count > roka.dealer_count
 
 def dealer_won(roka):
+    #Preveri, ali je dealer zmagal, vrne True/False
     if roka.player_count > 21:
         return True
     elif roka.dealer_count > 21:
@@ -84,3 +91,9 @@ def dealer_won(roka):
     else:
         return roka.player_count < roka.dealer_count
 
+def player_blackjack(roka):
+    #Preveri, ali ima plaayer Blackjack ali ne
+    if roka.player_count != 21 or len(roka.player_cards) != 2:
+        return False
+    else:
+        return roka.dealer_count != 21 or len(roka.dealer_cards) != 2

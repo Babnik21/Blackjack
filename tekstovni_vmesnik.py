@@ -6,7 +6,7 @@ import model
 #blablba
 
 
-def igralec_izbira(game, roka):
+def igralec_izbira_prva(game, roka):
     #Vpraša igralca, kaj želi s trenutno roko storiti in vrne, rabi popravek
     print(roka)
     print('Kaj želite narediti?')
@@ -20,6 +20,17 @@ def igralec_izbira(game, roka):
     else:
         return model.igralec_poteza(roka, odgovor)
 
+def igralec_izbira(game, roka):
+    print(roka)
+    print('Kaj želite narediti?')
+    print('1) Hit')
+    print('2) Stand')
+    odgovor = input('> ')
+    if len(odgovor) != 1 or odgovor not in '12':
+        print('Neveljavna izbira!')
+        return igralec_izbira(game, roka)
+    else:
+        return model.igralec_poteza(roka, odgovor)
 
 
 def vprašaj_po_depositu():
@@ -48,9 +59,18 @@ def pridobi_wager(igra):
         return odgovor
 
 def play_again():
+    #Vpraša igralca, če želi igrati ponovno, vrne True/False
     print('Ali želite igrati ponovno?')
     print('1) Da')
     print('2) Ne')
+    odgovor = input('> ')
+    if len(odgovor) != 1 or odgovor not in '12':
+        print('Neveljaven odgovor.')
+        return play_again()
+    elif odgovor == '1':
+        return True
+    else:
+        return False
 
 def nova_igra():
     #Vrne novo igro
@@ -58,7 +78,10 @@ def nova_igra():
 
 def razplet(roka, game):
     #Obvesti igralca o razpletu roke in osveži stanje na računu igralca
-    if model.player_won(roka):
+    if model.player_blackjack(roka):
+        print('Čestitke! Blackjack!')
+        game.balance += 1.5 * roka.wager
+    elif model.player_won(roka):
         print('Čestitke! Zmagali ste trenutno roko!')
         game.balance += roka.wager
     elif model.dealer_won(roka):
@@ -81,26 +104,38 @@ def cash_out(game):
         print('Neveljavna izbira!')
         return cash_out(game)
 
+def new_hand(game):
+    roka = Hand(pridobi_wager(game))
+    roka.update_counts()
+    return roka
+
 def odigraj_roko(game):
     #Sestavek kjer igralec odigra roko
-    roka = Hand(pridobi_wager(game))
+    roka = new_hand(game)
     while roka.player_count < 21 and not roka.stand:
+        if len(roka.player_cards) == 2:
+            roka = igralec_izbira_prva(game, roka)
+        else:
+            roka = igralec_izbira(game, roka)
         roka.update_counts()
-        roka = igralec_izbira(game, roka)
     if roka.player_count <= 21:
         while roka.dealer_count < 17:
-            roka.update_counts()
             roka.dealer_hit()
+            roka.update_counts()
+            print(roka)
     razplet(roka, game)
 
 def igra():
     #Celotna igra
     game = nova_igra()
-    while game.balance >= 0:
+    while True:
         odigraj_roko(game)
-        if cash_out(game):
+        if game.balance == 0:
+            print('Imate 0 evrov.')
             break
-    print('Vaše končno stanje je {} evrov. Hvala za igro!'.format(game.balance))
+        elif cash_out(game):
+            break
+    print('Vaše končno stanje je {} evrov.'.format(game.balance))
     time.sleep(2)
 
 def intro():
@@ -113,5 +148,8 @@ def program():
     intro()
     while True:
         igra()
+        if not play_again():
+            break
+    print('Hvala za igro!')
 
 program()
