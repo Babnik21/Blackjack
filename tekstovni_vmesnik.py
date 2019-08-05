@@ -36,20 +36,20 @@ def igralec_izbira(game, roka):
 
 def vprašaj_po_depositu():
     #Vpraša igralca, koliko denarja želi vložiti za igralno mizo in vrne to število
-    print('Koliko denarja želite imeti za mizo?')
+    print('Koliko evrov želite imeti za mizo?')
     odgovor = input('> ')
     if len(odgovor) == 0 or odgovor.count('.') > 1:
-        print('Neveljaven vnos')
+        print('Neveljaven vnos.')
         return vprašaj_po_depositu()
     for el in odgovor:
         if el not in '1234567890.':
-            print('Neveljavna izbira!')
+            print('Neveljaven vnos.')
             return vprašaj_po_depositu()
     return float(odgovor)
 
 def pridobi_wager(igra):
     #Vpraša igralca, koliko denarja želi staviti prihodnji hand, in vrne to število
-    print('Koliko denarja želite staviti naslednjo roko?')
+    print('Koliko želite staviti naslednjo roko?')
     odgovor = input('> ')
     if len(odgovor) == 0 or odgovor.count('.') > 1:
         print('Neveljavna izbira')
