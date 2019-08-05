@@ -16,10 +16,9 @@ def deposit():
 
 @bottle.get('/igra/')
 def igra():
-    deposit = bottle.request.query['deposit']
+    deposit = float(bottle.request.query['deposit'])
     game = model.nova_igra(float(deposit))
-    while True:
-        
+    return bottle.template('igra.tpl', deposit = deposit)
 
 
 

@@ -3,12 +3,10 @@
     <title>Blackjack</title>
   </head>
   <body>
-    Dobrodošli v igri Blackjack! <br>
-    Igrajte le s toliko denarja, kot ga lahko izgubite. <br>
-    Če nimate vsaj 18 let, zapustite stran. <br>
+    Usedli ste se za mizo, pred vami je {{ deposit }}.
 
-    <form action='/deposit/'>
-      a : <input type='submit' value = 'Deposit'>
+    <form action='/odigraj_hand/'>
+      <input type='submit' value = 'Nadaljuj'>
     </form>
   </body>
 </html>
