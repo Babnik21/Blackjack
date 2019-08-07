@@ -31,7 +31,7 @@ def igralec_izbira(game):
         print('Neveljavna izbira!')
         return igralec_izbira(game)
     else:
-        return model.igralec_poteza(game.roka, odgovor)
+        return model.igralec_poteza(game, odgovor)
 
 
 def vprašaj_po_depositu():
@@ -109,9 +109,9 @@ def cash_out(game):
 
 def odigraj_roko(game):
     #Sestavek kjer igralec odigra roko
-    game.roka = model.new_hand(pridobi_wager(game))
+    game.new_hand(pridobi_wager(game))
     while game.roka.player_count < 21 and not game.roka.stand:
-        if len(game.roka.player_cards) == 2:
+        if model.can_double(game):
             game.roka = igralec_izbira_prva(game)
         else:
             game.roka = igralec_izbira(game)

@@ -5,10 +5,9 @@
   <body>
     Usedli ste se za mizo, pred vami je {{ deposit }}.
 
-    <form action='/odigraj_hand/'>
+    <form action='/wager/'>
       <input type='submit' value = 'Odigraj hand!'>
     </form>
-
     <form action='/cash_out/'>
       <input type='submit' value = 'Cash out!'>
     </form>

@@ -59,24 +59,31 @@ class Hand:
     def konec(self):
         self.stand = True
 
+    def double(self):
+        self.player_hit()
+        self.wager *= 2
+        self.konec()
+
 class Igra:
     def __init__(self, deposit = 5):
         self.balance = deposit
-        self.roka = Hand(5)
+        self.roka = Hand(-1)
 
     def __str__(self):
         print('Na voljo imate še {} evrov.'.format(self.balance))
 
+    def new_hand(self, wager):
+        #Naredi novo roko in jo vrne
+        roka = Hand(wager)
+        roka.update_counts()
+        self.roka = roka
+
+    def update_balance(self, amount):
+        self.balance = amount
 
 def nova_igra(cifra):
     #Vrne novo igro
     return Igra(cifra)
-
-def new_hand(wager):
-    #Naredi novo roko in jo vrne
-    roka = Hand(wager)
-    roka.update_counts()
-    return roka
 
 def igralec_poteza(game, odgovor):
     #Sprejme odgovor uporabnika in opravi potezo (hit/stand...)
@@ -114,3 +121,6 @@ def player_blackjack(game):
         return False
     else:
         return game.roka.dealer_count != 21 or len(game.roka.dealer_cards) != 2
+
+def can_double(game):
+    return len(game.roka.player_cards) == 2 and game.balance >= 2*game.roka.wager

@@ -5,6 +5,7 @@
     <title>Blackjack</title>
   </head>
   <body>
+    {{karte}}
     <form action='/hit/'>
       <input type='submit' value = 'Hit'>
     </form>
