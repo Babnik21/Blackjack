@@ -25,7 +25,8 @@ def cash_out():
     return bottle.template('cash_out.tpl')
 
 @bottle.get('/odigraj_hand/')
-def odigraj_hand()
+def odigraj_hand():
+    return bottle.template('odigraj_hand')
 
 
 
