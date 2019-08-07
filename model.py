@@ -1,13 +1,5 @@
 from random import choice
 
-class Igra:
-    def __init__(self, deposit):
-        self.balance = deposit
-
-    def __str__(self):
-        print('Na voljo imate še {} evrov.'.format(self.balance))
-
-
 class Hand:
     def __init__(self, wager):
         self.wager = wager
@@ -64,6 +56,18 @@ class Hand:
         drugi_del = ', dealer ima ' + dealerjeve + ' ({}).'.format(self.dealer_count)
         return prvi_del + drugi_del
 
+    def konec(self):
+        self.stand = True
+
+class Igra:
+    def __init__(self, deposit = 5):
+        self.balance = deposit
+        self.roka = Hand(5)
+
+    def __str__(self):
+        print('Na voljo imate še {} evrov.'.format(self.balance))
+
+
 def nova_igra(cifra):
     #Vrne novo igro
     return Igra(cifra)
@@ -74,39 +78,39 @@ def new_hand(wager):
     roka.update_counts()
     return roka
 
-def igralec_poteza(roka, odgovor):
+def igralec_poteza(game, odgovor):
     #Sprejme odgovor uporabnika in opravi potezo (hit/stand...)
     if odgovor == '1':
-        roka.player_hit()
+        game.roka.player_hit()
     elif odgovor == '2':
-        roka.stand = True
+        game.roka.konec()
     else:
-        roka.player_hit()
-        roka.stand = True
-        roka.wager *= 2
-    return roka
+        game.roka.player_hit()
+        game.roka.stand = True
+        game.roka.wager *= 2
+    return game.roka
         
-def player_won(roka):
+def player_won(game):
     #Preveri, ali je igralec zmagal, vrne True/False
-    if roka.player_count > 21:
+    if game.roka.player_count > 21:
         return False
-    elif roka.dealer_count > 21:
+    elif game.roka.dealer_count > 21:
         return True
     else:
-        return roka.player_count > roka.dealer_count
+        return game.roka.player_count > game.roka.dealer_count
 
-def dealer_won(roka):
+def dealer_won(game):
     #Preveri, ali je dealer zmagal, vrne True/False
-    if roka.player_count > 21:
+    if game.roka.player_count > 21:
         return True
-    elif roka.dealer_count > 21:
+    elif game.roka.dealer_count > 21:
         return False
     else:
-        return roka.player_count < roka.dealer_count
+        return game.roka.player_count < game.roka.dealer_count
 
-def player_blackjack(roka):
+def player_blackjack(game):
     #Preveri, ali ima igralec Blackjack ali ne
-    if roka.player_count != 21 or len(roka.player_cards) != 2:
+    if game.roka.player_count != 21 or len(game.roka.player_cards) != 2:
         return False
     else:
-        return roka.dealer_count != 21 or len(roka.dealer_cards) != 2
+        return game.roka.dealer_count != 21 or len(game.roka.dealer_cards) != 2

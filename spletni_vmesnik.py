@@ -20,6 +20,13 @@ def igra():
     game = model.nova_igra(float(deposit))
     return bottle.template('igra.tpl', deposit = deposit)
 
+@bottle.get('/cash_out/')
+def cash_out():
+    return bottle.template('cash_out.tpl')
+
+@bottle.get('/odigraj_hand/')
+def odigraj_hand()
+
 
 
 
