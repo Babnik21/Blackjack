@@ -80,6 +80,31 @@ class Igra:
 
     def update_balance(self, amount):
         self.balance = amount
+    
+    def dealer_won(self):
+        #Preveri, ali je dealer zmagal, vrne True/False
+        if self.roka.player_count > 21:
+            return True
+        elif self.roka.dealer_count > 21:
+            return False
+        else:
+            return self.roka.player_count < self.roka.dealer_count
+
+    def player_won(self):
+        #Preveri, ali je igralec zmagal, vrne True/False
+        if self.roka.player_count > 21:
+            return False
+        elif self.roka.dealer_count > 21:
+            return True
+        else:
+            return self.roka.player_count > self.roka.dealer_count
+
+    def player_blackjack(self):
+        #Preveri, ali ima igralec Blackjack ali ne
+        if self.roka.player_count != 21 or len(self.roka.player_cards) != 2:
+            return False
+        else:
+            return self.roka.dealer_count != 21 or len(self.roka.dealer_cards) != 2
 
 def nova_igra(cifra):
     #Vrne novo igro
@@ -96,31 +121,9 @@ def igralec_poteza(game, odgovor):
         game.roka.stand = True
         game.roka.wager *= 2
     return game.roka
-        
-def player_won(game):
-    #Preveri, ali je igralec zmagal, vrne True/False
-    if game.roka.player_count > 21:
-        return False
-    elif game.roka.dealer_count > 21:
-        return True
-    else:
-        return game.roka.player_count > game.roka.dealer_count
+    
 
-def dealer_won(game):
-    #Preveri, ali je dealer zmagal, vrne True/False
-    if game.roka.player_count > 21:
-        return True
-    elif game.roka.dealer_count > 21:
-        return False
-    else:
-        return game.roka.player_count < game.roka.dealer_count
 
-def player_blackjack(game):
-    #Preveri, ali ima igralec Blackjack ali ne
-    if game.roka.player_count != 21 or len(game.roka.player_cards) != 2:
-        return False
-    else:
-        return game.roka.dealer_count != 21 or len(game.roka.dealer_cards) != 2
 
 def can_double(game):
     return len(game.roka.player_cards) == 2 and game.balance >= 2*game.roka.wager

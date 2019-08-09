@@ -9,7 +9,7 @@
     <form action='/hit/'>
       <input type='submit' value = 'Hit'>
     </form>
-    <form action='/stand/'>
+    <form action='/dealer_turn/'>
       <input type='submit' value = 'Stand'>
     </form>
     <form action='/double/'>

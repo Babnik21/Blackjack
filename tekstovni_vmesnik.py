@@ -81,13 +81,13 @@ def play_again():
 
 def razplet(game):
     #Obvesti igralca o razpletu roke in osveži stanje na računu igralca
-    if model.player_blackjack(game):
+    if game.player_blackjack():
         print('Čestitke! Blackjack!')
         game.balance += 1.5 * game.roka.wager
-    elif model.player_won(game):
+    elif game.player_won():
         print('Čestitke! Zmagali ste trenutno roko!')
         game.balance += game.roka.wager
-    elif model.dealer_won(game):
+    elif game.dealer_won():
         print('Dealer je zmagal to roko.')
         game.balance -= game.roka.wager
     else:

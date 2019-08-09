@@ -45,11 +45,31 @@ def hit():
     game.roka.update_counts()
     return bottle.template('hand.tpl', karte = game.roka)
 
+@bottle.get('/double/')
+def double():
+    game.roka.double()
+    game.roka.update_counts()
+    return bottle.template('hand.tpl', karte = game.roka)
+
 @bottle.get('/dealer_turn/')
 def stand():
     game.roka.dealer_hit()
     game.roka.update_counts()
-    return bottle.template('dealer_turn.tpl', karte = game.roka)
+    if game.roka.dealer_count >= 17:
+        return bottle.template('razplet.tpl')
+    else:
+        return bottle.template('dealer_turn.tpl', karte = game.roka)
+
+@bottle.get('/razplet/')
+def razplet():
+    if game.player_blackjack():
+        return bottle.template('blackjack.tpl')
+    elif game.player_won():
+        return bottle.template('player_won.tpl')
+    elif game.dealer_won():
+        return bottle.template('dealer_won.tpl')
+    else:
+        return bottle.template('tie.tpl')
 
 
 
