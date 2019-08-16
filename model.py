@@ -65,7 +65,7 @@ class Hand:
         self.konec()
 
 class Igra:
-    def __init__(self, deposit = 5):
+    def __init__(self, deposit = 0):
         self.balance = deposit
         self.roka = Hand(-1)
 
@@ -122,8 +122,19 @@ def igralec_poteza(game, odgovor):
         game.roka.wager *= 2
     return game.roka
     
+def je_stevilka(odgovor):
+    if len(odgovor) == 0 or odgovor.count('.') > 1:
+        return False
+    for el in odgovor:
+        if el not in '1234567890.':
+            return False
+    return float(odgovor) >= 0
 
-
+def veljaven_odgovor(odgovor, game):
+    if not je_stevilka(odgovor):
+        return False
+    else:
+        return float(odgovor) <= game.balance
 
 def can_double(game):
     return len(game.roka.player_cards) == 2 and game.balance >= 2*game.roka.wager

@@ -1,12 +1,10 @@
-<html>
-  <head>
-    <title>Blackjack</title>
-  </head>
-  <body>
-    Koliko denarja želite položiti za mizo? <br>
+%rebase('osnova.tpl') 
 
-    <form action='/igra/', method="push">
-      deposit : <input type='text' placeholder='vpišite število', name='deposit'>
-    </form>
-  </body>
-</html>
+<h1 class="title has-text-white">Koliko denarja želite položiti za mizo?</h1>
+
+<form action='/igra/', method="push">
+  <div class="control">
+    <h2 class="subtitle has-text-white">Deposit:<input class="input" type="text" placeholder="vpišite število" name='deposit'></h2> 
+  </div>
+</form>
+

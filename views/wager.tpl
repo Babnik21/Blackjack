@@ -1,12 +1,8 @@
-<html>
-  <head>
-    <title>Blackjack</title>
-  </head>
-  <body>
-    Koliko denarja želite staviti naslednji hand? <br>
+%rebase('osnova.tpl') 
+    <h1 class="has-text-white title">Koliko denarja želite staviti naslednji hand?</h1>
 
     <form action='/hand/', method="push">
-      Stava : <input type='text' placeholder='vpišite število', name='wager'>
+      <div class="control">
+        <h2 class="subtitle has-text-white">Stava:<input class="input" type="text" placeholder="vpišite število" name='wager'></h2> 
+      </div>
     </form>
-  </body>
-</html>

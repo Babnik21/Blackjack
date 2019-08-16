@@ -1,13 +1,8 @@
 % import model
 % end
-<html>
-  <head>
-    <title>Blackjack</title>
-  </head>
-  <body>
+%rebase('osnova.tpl')
   {{karte}}
   <form action='/dealer_turn/'>
-    <input type='submit' value='Next'>
+    <input type='submit' class="button is-success is-inverted" value='Next'>
   </form>
-  </body>
-</html>
+

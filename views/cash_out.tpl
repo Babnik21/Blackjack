@@ -1,12 +1,6 @@
-<html>
-  <head>
-    <title>Blackjack</title>
-  </head>
-  <body>
-    Hvala za igranje! <br>
+%rebase('osnova.tpl')
+    <h1 class="has-text-white title>"Hvala za igranje!</h1>
 
     <form action='/'>
-      <input type='submit' value = 'Vrnite se na zacetno stran'>
+      <input type='submit' class="button is-success is-inverted" value = 'Vrnite se na zacetno stran'>
     </form>
-  </body>
-</html>

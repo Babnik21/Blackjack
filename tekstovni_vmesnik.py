@@ -51,19 +51,11 @@ def pridobi_wager(game):
     #Vpraša igralca, koliko denarja želi staviti prihodnji hand, in vrne to število
     print('Koliko želite staviti naslednjo roko?')
     odgovor = input('> ')
-    if len(odgovor) == 0 or odgovor.count('.') > 1:
-        print('Neveljavna izbira')
-        return pridobi_wager(game)
-    for el in odgovor:
-        if el not in '1234567890.':
-            print('Neveljavna izbira.')
-            return pridobi_wager(game)
-    odgovor = float(odgovor)
-    if odgovor > game.balance:
-        print('Neveljavna izbira! Na voljo imate le še {} evrov.'.format(game.balance))
+    if not model.veljaven_odgovor(odgovor, game):
+        print('Neveljavna izbira.')
         return pridobi_wager(game)
     else:
-        return odgovor
+        return float(odgovor)
 
 def play_again():
     #Vpraša igralca, če želi igrati ponovno, vrne True/False
