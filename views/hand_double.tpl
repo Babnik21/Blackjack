@@ -1,6 +1,6 @@
 % import model
-% end
 %rebase('osnova.tpl')
+
 
 <style>
 #tabela {
@@ -8,9 +8,46 @@
   margin: 0 auto;
   border-collapse: separate;
 }
+
+#karte {
+  border-spacing: 80px 0;
+  margin: 0 auto;
+  border-collapse: separate;
+}
+
+.ocka {
+  position: relative;
+  min-height: 500px;
+}
+
+.ocka img {
+  position: absolute;
+  min-width: 200px;
+}
 </style>
 
-    {{karte}}
+
+<table id='karte'>
+  <tr>
+    <th>
+    <div class="ocka" style="width: {{len(player) * 120}}px">
+% for i, el in enumerate(player):
+    <img src="https://deckofcardsapi.com/static/img/{{el}}.png" style="left: {{i*80}}px; top: {{i*80}}px">
+% end
+  </div>
+    </th>
+    <th>
+    <div class="ocka" style="width: {{len(dealer) * 120}}px">
+% for i, el in enumerate(dealer):
+    <img src="https://deckofcardsapi.com/static/img/{{el}}.png" style="left: {{i*80}}px; top: {{i*80}}px">
+% end
+  </div>
+
+    </th>
+  </tr>
+</table> 
+
+
 
  <table id='tabela'>
   <tr>
@@ -32,3 +69,9 @@
   </tr>
 </table> 
 
+
+
+
+<div id="ocka">
+
+</div>

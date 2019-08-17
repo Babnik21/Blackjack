@@ -21,6 +21,8 @@ def igra():
         deposit = bottle.request.query['deposit']
         if not model.je_stevilka(deposit):
             return bottle.template('deposit_1.tpl')
+        elif float(deposit) <= 0:
+            return bottle.template('deposit_1.tpl')
         game.balance = float(deposit)
     return bottle.template('igra.tpl', balance=game.balance)
 
@@ -34,21 +36,25 @@ def hand():
     if not model.veljaven_odgovor(wager, game):
         return bottle.template('wager_1.tpl')
     game.new_hand(float(wager))
+    dealer = model.spremeni_format_handa(game.roka.dealer_cards, game.roka.dealer_suits)
+    player = model.spremeni_format_handa(game.roka.player_cards, game.roka.player_suits)
     if game.roka.player_count == 21:
         bottle.redirect('/razplet/')
     if model.can_double(game):
-        return bottle.template('hand_double.tpl', karte = game.roka)
+        return bottle.template('hand_double.tpl', player = player, dealer = dealer)
     else:
-        return bottle.template('hand.tpl', karte = game.roka)
+        return bottle.template('hand.tpl', player = player, dealer = dealer)
 
 @bottle.get('/hit/')
 def hit():
     game.roka.player_hit()
     game.roka.update_counts()
+    dealer = model.spremeni_format_handa(game.roka.dealer_cards, game.roka.dealer_suits)
+    player = model.spremeni_format_handa(game.roka.player_cards, game.roka.player_suits)
     if game.roka.player_count > 21:
         return bottle.redirect('/razplet/')
     else:
-        return bottle.template('hand.tpl', karte = game.roka)
+        return bottle.template('hand.tpl', player = player, dealer = dealer)
 
 @bottle.get('/double/')
 def double():
@@ -64,24 +70,28 @@ def double():
 def dealer_turn():
     game.roka.dealer_hit()
     game.roka.update_counts()
+    dealer = model.spremeni_format_handa(game.roka.dealer_cards, game.roka.dealer_suits)
+    player = model.spremeni_format_handa(game.roka.player_cards, game.roka.player_suits)
     if game.roka.dealer_count >= 17:
         bottle.redirect('/razplet/')
     else:
-        return bottle.template('dealer_turn.tpl', karte = game.roka)
+        return bottle.template('dealer_turn.tpl', player = player, dealer = dealer)
 
 @bottle.get('/razplet/')
 def razplet():
-    if game.player_blackjack():
+    dealer = model.spremeni_format_handa(game.roka.dealer_cards, game.roka.dealer_suits)
+    player = model.spremeni_format_handa(game.roka.player_cards, game.roka.player_suits)
+    if game.player_blackjack() and (game.roka.dealer_count != 21 or len(game.roka.dealer_cards) > 2):
         game.balance += 1.5*game.roka.wager
-        return bottle.template('blackjack.tpl', karte = game.roka, stanje = game.balance)
+        return bottle.template('blackjack.tpl', player = player, dealer = dealer, stanje = game.balance)
     elif game.player_won():
         game.balance += game.roka.wager
-        return bottle.template('player_won.tpl', karte = game.roka, stanje = game.balance)
+        return bottle.template('player_won.tpl', player = player, dealer = dealer, stanje = game.balance)
     elif game.dealer_won():
         game.balance -= game.roka.wager
-        return bottle.template('dealer_won.tpl', karte = game.roka, stanje = game.balance)
+        return bottle.template('dealer_won.tpl', player = player, dealer = dealer, stanje = game.balance)
     else:
-        return bottle.template('tie.tpl', karte = game.roka, stanje = game.balance)
+        return bottle.template('tie.tpl', player = player, dealer = dealer, stanje = game.balance)
 
 @bottle.get('/end/')
 def end():

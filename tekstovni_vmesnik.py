@@ -3,7 +3,7 @@ from model import Igra, Hand
 import model
 
 
-#popravi da piše v evrih ne '100 denarja'
+
 
 def igralec_izbira_prva(game):
     #Vpraša igralca, kaj želi s trenutno roko storiti in to izvede

@@ -7,6 +7,8 @@ class Hand:
         self.dealer_cards = [choice(['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'])]
         self.player_cards = [choice(['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']), 
         choice(['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'])]
+        self.player_suits = [choice(['S', 'C', 'D', 'H']), choice(['S', 'C', 'D', 'H'])]
+        self.dealer_suits = [choice(['S', 'C', 'D', 'H'])]
         self.player_count = 0
         self.dealer_count = 0
         self.dealer_ace_count = 0
@@ -44,9 +46,11 @@ class Hand:
     def player_hit(self):
         #Igralcu doda karto
         self.player_cards.append(choice(['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']))
+        self.player_suits.append(choice(['S', 'C', 'D', 'H']))
 
     def dealer_hit(self):
         #Dealerju doda karto
+        self.dealer_suits.append(choice(['S', 'C', 'D', 'H']))
         self.dealer_cards.append(choice(['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']))      
 
     def __str__(self):
@@ -138,3 +142,13 @@ def veljaven_odgovor(odgovor, game):
 
 def can_double(game):
     return len(game.roka.player_cards) == 2 and game.balance >= 2*game.roka.wager
+
+
+def spremeni_format_handa(vrednosti, suits):
+    resitev = []
+    for value, suit in zip(vrednosti, suits):
+        resitev.append(value + suit)
+    return resitev
+
+
+
