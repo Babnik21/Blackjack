@@ -147,6 +147,8 @@ def can_double(game):
 def spremeni_format_handa(vrednosti, suits):
     resitev = []
     for value, suit in zip(vrednosti, suits):
+        if value == 'T':
+            value = '0'
         resitev.append(value + suit)
     return resitev
 

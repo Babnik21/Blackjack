@@ -45,7 +45,7 @@ def hand():
     else:
         return bottle.template('hand.tpl', player = player, dealer = dealer)
 
-@bottle.get('/hit/')
+@bottle.post('/hit/')
 def hit():
     game.roka.player_hit()
     game.roka.update_counts()
@@ -56,7 +56,7 @@ def hit():
     else:
         return bottle.template('hand.tpl', player = player, dealer = dealer)
 
-@bottle.get('/double/')
+@bottle.post('/double/')
 def double():
     game.roka.player_hit()
     game.roka.update_counts()

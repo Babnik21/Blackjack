@@ -22,7 +22,7 @@
 
 .ocka img {
   position: absolute;
-  min-width: 200px;
+  width: 200px;
 }
 </style>
 
@@ -30,14 +30,14 @@
 <table id='karte'>
   <tr>
     <th>
-    <div class="ocka" style="width: {{len(player) * 120}}px">
+    <div class="ocka" style="width: {{120 + len(player)*80}}px; height: {{197.883 + max(len(player), len(dealer)) * 80}}px">
 % for i, el in enumerate(player):
     <img src="https://deckofcardsapi.com/static/img/{{el}}.png" style="left: {{i*80}}px; top: {{i*80}}px">
 % end
   </div>
     </th>
     <th>
-    <div class="ocka" style="width: {{len(dealer) * 120}}px">
+    <div class="ocka" style="width: {{120 + len(dealer)*80}}px">
 % for i, el in enumerate(dealer):
     <img src="https://deckofcardsapi.com/static/img/{{el}}.png" style="left: {{i*80}}px; top: {{i*80}}px">
 % end

@@ -6,25 +6,45 @@
   margin: 0 auto;
   border-collapse: separate;
 }
+#karte {
+  border-spacing: 80px 0;
+  margin: 0 auto;
+  border-collapse: separate;
+}
+
+.ocka {
+  position: relative;
+  min-height: 500px;
+}
+
+.ocka img {
+  position: absolute;
+  width: 200px;
+}
 </style>
 
- <table id='karte'>
+
+<table id='karte'>
   <tr>
     <th>
-% for el in player:
-    <img src="https://deckofcardsapi.com/static/img/{{el}}.png">
+    <div class="ocka" style="width: {{120 + len(player)*80}}px; height: {{197.883 + max(len(player), len(dealer)) * 80}}px">
+% for i, el in enumerate(player):
+    <img src="https://deckofcardsapi.com/static/img/{{el}}.png" style="left: {{i*80}}px; top: {{i*80}}px">
 % end
+  </div>
     </th>
     <th>
-% for el in dealer:
-    <img src="https://deckofcardsapi.com/static/img/{{el}}.png">
+    <div class="ocka" style="width: {{120 + len(dealer)*80}}px">
+% for i, el in enumerate(dealer):
+    <img src="https://deckofcardsapi.com/static/img/{{el}}.png" style="left: {{i*80}}px; top: {{i*80}}px">
 % end
+  </div>
 
     </th>
   </tr>
 </table>  
 
-    <h1 class="has-text-white title">Čestitke! Blackjack! Vaše novo stanje je {{stanje}}.</h1>
+    <h1 'class="has-text-white title">Čestitke! Blackjack! Vaše novo stanje je {{stanje}}.</h1>
 
     <h1 class="has-text-white title">Želite igrati ponovno?</h1>
      <table id="tabela">
