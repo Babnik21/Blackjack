@@ -44,7 +44,7 @@
   </tr>
 </table>  
 
-    <h1 'class="has-text-white title">Čestitke! Blackjack! Vaše novo stanje je {{stanje}}.</h1>
+    <h1 class="has-text-white title">Čestitke! Blackjack! Vaše novo stanje je {{stanje}}.</h1>
 
     <h1 class="has-text-white title">Želite igrati ponovno?</h1>
      <table id="tabela">

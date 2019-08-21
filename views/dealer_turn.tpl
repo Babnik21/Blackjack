@@ -49,7 +49,7 @@
 </table> 
 
 
-  <form action='/dealer_turn/'>
+  <form action='/dealer_turn/', method = "post">
     <input type='submit' class="button is-success is-inverted" value='Next'>
   </form>
 

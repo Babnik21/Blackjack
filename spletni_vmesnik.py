@@ -28,14 +28,15 @@ def igra():
 
 @bottle.get('/wager/')
 def wager():
+    game.new_hand(5)
     return bottle.template('wager.tpl')
 
-@bottle.get('/hand/')
+@bottle.post('/hand/')
 def hand():
-    wager = bottle.request.query['wager']
+    wager = bottle.request.forms['wager']
     if not model.veljaven_odgovor(wager, game):
         return bottle.template('wager_1.tpl')
-    game.new_hand(float(wager))
+    game.roka.wager = float(wager)
     dealer = model.spremeni_format_handa(game.roka.dealer_cards, game.roka.dealer_suits)
     player = model.spremeni_format_handa(game.roka.player_cards, game.roka.player_suits)
     if game.roka.player_count == 21:
@@ -61,12 +62,14 @@ def double():
     game.roka.player_hit()
     game.roka.update_counts()
     game.roka.wager *= 2
+    dealer = model.spremeni_format_handa(game.roka.dealer_cards, game.roka.dealer_suits)
+    player = model.spremeni_format_handa(game.roka.player_cards, game.roka.player_suits)
     if game.roka.player_count >= 22:
         bottle.redirect('/razplet/')
-    bottle.redirect('/dealer_turn/')
+    return bottle.template('dealer_turn.tpl', player = player, dealer = dealer, karte = game.roka)
 
 
-@bottle.get('/dealer_turn/')
+@bottle.post('/dealer_turn/')
 def dealer_turn():
     game.roka.dealer_hit()
     game.roka.update_counts()
