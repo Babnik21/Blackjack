@@ -41,9 +41,9 @@ def hand():
     if game.roka.player_count == 21:
         bottle.redirect('/razplet/')
     if model.can_double(game):
-        return bottle.template('hand_double.tpl', player = player, dealer = dealer)
+        return bottle.template('hand_double.tpl', player = player, dealer = dealer, karte = game.roka)
     else:
-        return bottle.template('hand.tpl', player = player, dealer = dealer)
+        return bottle.template('hand.tpl', player = player, dealer = dealer, karte = game.roka)
 
 @bottle.post('/hit/')
 def hit():
@@ -54,7 +54,7 @@ def hit():
     if game.roka.player_count > 21:
         return bottle.redirect('/razplet/')
     else:
-        return bottle.template('hand.tpl', player = player, dealer = dealer)
+        return bottle.template('hand.tpl', player = player, dealer = dealer, karte = game.roka)
 
 @bottle.post('/double/')
 def double():
@@ -75,7 +75,7 @@ def dealer_turn():
     if game.roka.dealer_count >= 17:
         bottle.redirect('/razplet/')
     else:
-        return bottle.template('dealer_turn.tpl', player = player, dealer = dealer)
+        return bottle.template('dealer_turn.tpl', player = player, dealer = dealer, karte = game.roka)
 
 @bottle.get('/razplet/')
 def razplet():
@@ -83,12 +83,15 @@ def razplet():
     player = model.spremeni_format_handa(game.roka.player_cards, game.roka.player_suits)
     if game.player_blackjack() and (game.roka.dealer_count != 21 or len(game.roka.dealer_cards) > 2):
         game.balance += 1.5*game.roka.wager
+        game.roka.wager = 0
         return bottle.template('blackjack.tpl', player = player, dealer = dealer, stanje = game.balance)
     elif game.player_won():
         game.balance += game.roka.wager
+        game.roka.wager = 0
         return bottle.template('player_won.tpl', player = player, dealer = dealer, stanje = game.balance)
     elif game.dealer_won():
         game.balance -= game.roka.wager
+        game.roka.wager = 0
         return bottle.template('dealer_won.tpl', player = player, dealer = dealer, stanje = game.balance)
     else:
         return bottle.template('tie.tpl', player = player, dealer = dealer, stanje = game.balance)

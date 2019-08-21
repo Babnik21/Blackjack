@@ -16,7 +16,7 @@ body{
 }
 </style>
 
-  <body align="center" class="has-text-white">
+  <body class="has-text-white">
   
         {{!base}}
   </body>

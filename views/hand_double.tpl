@@ -26,7 +26,7 @@
 }
 </style>
 
-
+<h2 class="title has-text-white">{{karte}}</h2>
 <table id='karte'>
   <tr>
     <th>
